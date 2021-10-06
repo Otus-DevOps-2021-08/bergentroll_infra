@@ -26,3 +26,15 @@ Host someinternalhost
   User appuser
   Hostname SOMEINTERNALHOST_IP
 ```
+
+## Bastion Pritunl server
+
+Cause of missing official Pritunl packages for Ubuntu 16.04 bastion host has
+been rerolled with Ubuntu 20.04.
+
+```
+bastion_IP = 178.154.221.192
+someinternalhost_IP = 10.128.0.12
+```
+
+sslip.io bastion hostname is https://178.154.221.192.sslip.io/.
