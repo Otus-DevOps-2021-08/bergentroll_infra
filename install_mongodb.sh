@@ -1,4 +1,4 @@
-﻿#! /bin/bash
+#! /bin/bash
 
 # Exit on first fail
 set -e

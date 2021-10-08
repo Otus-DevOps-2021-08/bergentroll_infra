@@ -1,15 +1,20 @@
-﻿#! /bin/bash
+#! /bin/bash
 
 # Exit on first fail
 set -e
 
-apt-get update -y
-apt-get install git
+if [ "$EUID" -ne 0 ]; then
+  1>&2 echo 'root permissions required'
+  exit 1
+fi
 
+apt-get update -y
+apt-get install -y git
+
+pushd /srv/
 git clone -b monolith https://github.com/express42/reddit.git
 
-pushd reddit
-
+pushd reddit/
 bundle install
 
 puma -d
