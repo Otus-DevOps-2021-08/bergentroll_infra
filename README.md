@@ -38,3 +38,12 @@ someinternalhost_IP = 10.128.0.12
 ```
 
 sslip.io bastion hostname is https://178.154.221.192.sslip.io/.
+
+# Cloud testapp
+
+`yc` cli is proprietary 😔
+
+```
+testapp_IP = 178.154.234.144
+testapp_port =  9292
+```
