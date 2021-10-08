@@ -8,6 +8,9 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+apt-get update -y
+apt-get install -y apt-transport-https
+
 # Get MongoDB GPG key
 apt-key adv --keyserver hkp://keyserver.ubuntu.com \
   --recv 'E162F504A20CDF15827F718D4B7C549A058F8B6B'
