@@ -1,0 +1,17 @@
+#cloud-config
+
+users:
+  - default
+  - name: user
+    groups: sudo
+    shell: /bin/bash
+    sudo:
+      - 'ALL=(ALL) NOPASSWD:ALL'
+    ssh-authorized-keys:
+      - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDsrUI9DaMpWCGTg/842gU6d0yY0jFBc+nLQrCD4B6odPhO6ZnjiE9IL/RahS7TNORPlKO+ZMKCsBU1w4WW7Ic3Bx6IiA1gEu8MND70JlKw/KLAjFUexNMGYLqgWY7cMzI0fpFC+asmfOteqJToQl4coykB14GPDFYDcWzkhnAA8+o2sdtOesOx8Tdz/MQGbaNKOwjvZjGkJGPMs5Z0b8bKy0G89+D9TYHNikvxXoUIhuk+10KQiQzur7q+3Ax5ay3MzwJy5G3OjBrhILBsaXSmXugRDWBi2HMOoFleQeFszFWTWYXnnI44IgZOz6eXAux7UAVwM9NKv/EyauMI26bZl+jKQXBA36gNtMFefedHb4OXB2XAjkF2iFOqGMjokSjxZHigd/jPuhemJmceq54ZZuLnRk2Ui0dFIeHdcSwQKR1glR1qUuFhBcUNOnK86IPAPrRAwp/6Q2d73j3WzJCOZclsZL795bHJ/kSGUBLnqaGjsvjxJFUHqe8ccN0Lw5E= user@nonfree'
+
+runcmd:
+  - wget -qO - https://storage.yandexcloud.net/bergentroll-otus/cloud-testapp/install_ruby.sh | bash
+  - wget -qO - https://storage.yandexcloud.net/bergentroll-otus/cloud-testapp/install_mongodb.sh | bash
+  - wget -qO - https://storage.yandexcloud.net/bergentroll-otus/cloud-testapp/deploy.sh | bash
+
