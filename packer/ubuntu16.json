@@ -1,0 +1,34 @@
+{
+  "builders": [
+    {
+      "type": "yandex",
+      "service_account_key_file": "./key.json",
+      "folder_id": "b1g1c2edoofrofrhbeer",
+      "source_image_family": "ubuntu-1604-lts",
+      "image_name": "reddit-base-{{timestamp}}",
+      "image_family": "reddit-base",
+      "ssh_username": "ubuntu",
+      "use_ipv4_nat": true,
+      "platform_id": "standard-v1",
+      "subnet_id": "e9b3vj6sa7i9ebev0icv",
+      "zone": "ru-central1-a"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "scripts/lock_guard.sh",
+      "pause_before": "5s"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/install_ruby.sh",
+      "execute_command": "sudo {{.Path}}"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/install_mongodb.sh",
+      "execute_command": "sudo {{.Path}}"
+    }
+  ]
+}
