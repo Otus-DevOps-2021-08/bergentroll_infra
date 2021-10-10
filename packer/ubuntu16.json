@@ -3,14 +3,15 @@
     "key_file": null,
     "folder_id": "b1g1c2edoofrofrhbeer",
     "subnet_id": "e9b3vj6sa7i9ebev0icv",
-    "zone": "ru-central1-a"
+    "zone": "ru-central1-a",
+    "source_image_family": "ubuntu-1604-lts"
   },
   "builders": [
     {
       "type": "yandex",
       "service_account_key_file": "{{ user `key_file` }}",
       "folder_id": "{{ user `folder_id` }}",
-      "source_image_family": "ubuntu-1604-lts",
+      "source_image_family": "{{ user `source_image_family` }}",
       "image_name": "reddit-base-{{ timestamp }}",
       "image_family": "reddit-base",
       "ssh_username": "ubuntu",
