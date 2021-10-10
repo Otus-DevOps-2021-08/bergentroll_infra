@@ -17,8 +17,14 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "scripts/lock_guard.sh",
-      "pause_before": "5s"
+      "inline": [
+        "sudo systemctl disable apt-daily.timer",
+        "sudo systemctl stop apt-daily"
+      ]
+    },
+    {
+      "type": "shell",
+      "script": "scripts/lock_guard.sh"
     },
     {
       "type": "shell",
