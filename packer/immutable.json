@@ -4,8 +4,8 @@
     "ssh_private_key_file": null,
     "folder_id": "b1g1c2edoofrofrhbeer",
     "subnet_id": "e9b3vj6sa7i9ebev0icv",
-    "zone": "ru-central1-a",
-    "source_image_id": "fd8odpuc1tuf9f21cg1c"
+    "source_image_id": "fd81a0odc7krdu02mqan",
+    "zone": "ru-central1-a"
   },
   "builders": [
     {
@@ -13,8 +13,8 @@
       "service_account_key_file": "{{ user `service_account_key_file` }}",
       "folder_id": "{{ user `folder_id` }}",
       "source_image_id": "{{ user `source_image_id` }}",
-      "image_name": "reddit-base-{{ timestamp }}",
-      "image_family": "reddit-base",
+      "image_name": "reddit-full-{{ timestamp }}",
+      "image_family": "reddit-full",
       "ssh_username": "ubuntu",
       "ssh_private_key_file": "{{ user `ssh_private_key_file` }}",
       "use_ipv4_nat": true,
@@ -24,6 +24,11 @@
     }
   ],
   "provisioners": [
+    {
+      "type": "file",
+      "source": "files/reddit.service",
+      "destination": "/tmp/"
+    },
     {
       "type": "shell",
       "inline": [
@@ -37,12 +42,7 @@
     },
     {
       "type": "shell",
-      "script": "scripts/install_ruby.sh",
-      "execute_command": "sudo {{.Path}}"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/install_mongodb.sh",
+      "script": "scripts/deploy.sh",
       "execute_command": "sudo {{.Path}}"
     }
   ]
