@@ -3,5 +3,5 @@
   "folder_id": "b1g1c2edoofrofrhbeer",
   "subnet_id": "e9b3vj6sa7i9ebev0icv",
   "zone": "ru-central1-a",
-  "source_image_family": "ubuntu-1604-lts"
+  "source_image_id": "fd8odpuc1tuf9f21cg1c"
 }
