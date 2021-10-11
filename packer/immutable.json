@@ -1,0 +1,49 @@
+{
+  "variables": {
+    "service_account_key_file": null,
+    "ssh_private_key_file": null,
+    "folder_id": "b1g1c2edoofrofrhbeer",
+    "subnet_id": "e9b3vj6sa7i9ebev0icv",
+    "source_image_id": "fd81a0odc7krdu02mqan",
+    "zone": "ru-central1-a"
+  },
+  "builders": [
+    {
+      "type": "yandex",
+      "service_account_key_file": "{{ user `service_account_key_file` }}",
+      "folder_id": "{{ user `folder_id` }}",
+      "source_image_id": "{{ user `source_image_id` }}",
+      "image_name": "reddit-full-{{ timestamp }}",
+      "image_family": "reddit-full",
+      "ssh_username": "ubuntu",
+      "ssh_private_key_file": "{{ user `ssh_private_key_file` }}",
+      "use_ipv4_nat": true,
+      "platform_id": "standard-v1",
+      "subnet_id": "{{ user `subnet_id` }}",
+      "zone": "{{ user `zone` }}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "files/reddit.service",
+      "destination": "/tmp/"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo systemctl disable apt-daily.timer",
+        "sudo systemctl stop apt-daily"
+      ]
+    },
+    {
+      "type": "shell",
+      "script": "scripts/lock_guard.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/deploy.sh",
+      "execute_command": "sudo {{.Path}}"
+    }
+  ]
+}

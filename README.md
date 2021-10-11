@@ -61,3 +61,10 @@ yc compute instance create \
   --metadata serial-port-enable=1 \
   --metadata-from-file user-data=./reddit-metadata.yml
 ```
+
+## Packer
+
+What have been done:
+- Meet all HW requirements
+- Drink tea
+- Get tired
