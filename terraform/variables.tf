@@ -10,6 +10,10 @@ variable public_key_path {
   description = "Path to the public key used for SSH access"
 }
 
+variable private_key_path {
+  description = "Path to the private key used for SSH access"
+}
+
 variable image_id { }
 
 variable subnet_id { }
