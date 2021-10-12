@@ -1,2 +1,6 @@
 variables.json
 key.json
+*.tfstate
+*.backup
+*.tfvars
+.terraform/
