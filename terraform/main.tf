@@ -13,9 +13,13 @@ provider "yandex" {
 }
 
 resource "yandex_compute_instance" "app" {
-  allow_stopping_for_update = true
   name = "reddit-app-tf"
   platform_id = "standard-v2"
+  allow_stopping_for_update = true
+
+  metadata = {
+    ssh-keys = "ubuntu:${file("~/.ssh/sync/appuser_rsa.pub")}"
+  }
 
   resources {
     cores = 2
