@@ -8,8 +8,10 @@ terraform {
 }
 
 provider "yandex" {
-  folder_id = "b1g1c2edoofrofrhbeer"
-  zone = "ru-central1-a"
+  service_account_key_file = var.service_account_key_file
+  cloud_id = var.cloud_id
+  folder_id = var.folder_id
+  zone = var.zone
 }
 
 resource "yandex_compute_instance" "app" {
@@ -18,7 +20,7 @@ resource "yandex_compute_instance" "app" {
   allow_stopping_for_update = true
 
   metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/sync/appuser_rsa.pub")}"
+    ssh-keys = "ubuntu:${file(var.public_key_path)}}"
   }
 
   resources {
@@ -29,12 +31,12 @@ resource "yandex_compute_instance" "app" {
 
   boot_disk {
     initialize_params {
-      image_id = "fd8l12ucp92to452fbo0"
+      image_id = var.image_id
     }
   }
 
   network_interface {
-    subnet_id = "e9b3vj6sa7i9ebev0icv"
+    subnet_id = var.subnet_id
     nat = true
   }
 }
