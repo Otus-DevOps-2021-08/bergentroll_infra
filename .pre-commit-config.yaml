@@ -11,4 +11,3 @@ repos:
     hooks:
       - id: terraform_fmt
       - id: terraform_validate
-      - id: checkov
