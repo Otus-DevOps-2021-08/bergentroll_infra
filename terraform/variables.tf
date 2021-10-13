@@ -27,6 +27,11 @@ variable "instance_num" {
   default     = 1
 }
 
+variable "puma_port" {
+  description = "Port to bind the Puma server"
+  default     = 9292
+}
+
 variable "load_balancer_port" {
   description = "Port to expose an application"
   default     = 80

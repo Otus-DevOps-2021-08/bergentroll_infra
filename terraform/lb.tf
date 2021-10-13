@@ -18,9 +18,9 @@ resource "yandex_lb_network_load_balancer" "app_lb" {
   name = "reddit-app-lb-tf"
 
   listener {
-    name        = "listener-9292"
+    name        = "app-listener"
     port        = var.load_balancer_port
-    target_port = 9292
+    target_port = var.puma_port
     external_address_spec {
       ip_version = "ipv4"
     }
@@ -30,9 +30,9 @@ resource "yandex_lb_network_load_balancer" "app_lb" {
     target_group_id = yandex_lb_target_group.app_target_group.id
 
     healthcheck {
-      name = "healthcheck-9292"
+      name = "app-healthcheck"
       http_options {
-        port = 9292
+        port = var.puma_port
         path = "/"
       }
     }

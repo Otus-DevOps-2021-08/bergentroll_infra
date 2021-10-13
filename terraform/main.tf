@@ -39,7 +39,7 @@ resource "yandex_compute_instance" "app" {
   }
 
   provisioner "file" {
-    source      = "files/puma.service"
+    content     = templatefile("files/puma.service", { puma_port = var.puma_port })
     destination = "/tmp/puma.service"
   }
 

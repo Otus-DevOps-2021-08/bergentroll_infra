@@ -71,5 +71,13 @@ What have been done:
 
 ## Terraform
 
+Terraform config has been created. It kicks up multiple app hosts and a load
+balancer.
+
+> **TODO**: add bastion host and make nat address block conditional.
+
+> **DRAWBACK**: Changing var.puma_port after provisioning does now update
+> running service!
+
 Config with hardcoded multiple similar resources seams fragile and needs to
 carefully handle changes in multiple places.
