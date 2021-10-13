@@ -68,3 +68,8 @@ What have been done:
 - Meet all HW requirements
 - Drink tea
 - Get tired
+
+## Terraform
+
+Config with hardcoded multiple similar resources seams fragile and needs to
+carefully handle changes in multiple places.

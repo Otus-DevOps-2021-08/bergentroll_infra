@@ -21,3 +21,13 @@ variable "subnet_id" {}
 variable "service_account_key_file" {
   default = null
 }
+
+variable "instance_num" {
+  description = "Amount of application hosts"
+  default     = 1
+}
+
+variable "load_balancer_port" {
+  description = "Port to expose an application"
+  default     = 80
+}

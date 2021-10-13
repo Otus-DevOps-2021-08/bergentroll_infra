@@ -6,7 +6,8 @@ provider "yandex" {
 }
 
 resource "yandex_compute_instance" "app" {
-  name                      = "reddit-app-tf"
+  count                     = var.instance_num
+  name                      = "reddit-app-tf-${count.index}"
   platform_id               = "standard-v2"
   allow_stopping_for_update = true
 
@@ -31,7 +32,7 @@ resource "yandex_compute_instance" "app" {
 
   connection {
     type        = "ssh"
-    host        = yandex_compute_instance.app.network_interface.0.nat_ip_address
+    host        = self.network_interface[0].nat_ip_address
     user        = "ubuntu"
     agent       = false
     private_key = file(var.private_key_path)
