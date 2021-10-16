@@ -81,3 +81,10 @@ balancer.
 
 Config with hardcoded multiple similar resources seams fragile and needs to
 carefully handle changes in multiple places.
+
+## Terraform 2
+
+TODO:
+- Fix application provisioning
+- Manager interhost connection
+- Return load balancer provisioning

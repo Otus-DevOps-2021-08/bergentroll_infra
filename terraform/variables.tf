@@ -25,10 +25,11 @@ variable "db_disk_image" {
 }
 
 variable "service_account_key_file" {
-  default = null
+  description = "YC secrets JSON file"
+  default     = null
 }
 
-variable "instance_num" {
+variable "app_instance_num" {
   description = "Amount of application hosts"
   default     = 1
 }

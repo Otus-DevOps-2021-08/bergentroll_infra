@@ -3,4 +3,5 @@ key.json
 *.tfstate
 *.backup
 *.tfvars
+*.lock.hcl
 .terraform/

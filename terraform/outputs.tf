@@ -5,27 +5,21 @@
 #}
 
 output "external_ip_address_app" {
-  description = "Assigned instance IPv4 address"
-  value = [
-    for i in yandex_compute_instance.app :
-    "${i.name}: ${i.network_interface[0].nat_ip_address}"
-  ]
+  description = "Assigned instance application IPv4 address"
+  value       = module.app.external_ip_address
 }
 
 output "external_ip_address_db" {
-  description = "Assigned instance IPv4 address"
-  value = [
-    for i in yandex_compute_instance.db :
-    "${i.name}: ${i.network_interface[0].nat_ip_address}"
-  ]
+  description = "Assigned instance database IPv4 address" # TODO
+  value       = module.db.external_ip_address
 }
 
 output "app_image" {
-  value = data.yandex_compute_image.app_image.name
+  value = module.app.image_name
 }
 
 output "db_image" {
-  value = data.yandex_compute_image.db_image.name
+  value = module.db.image_name
 }
 
 # TODO
