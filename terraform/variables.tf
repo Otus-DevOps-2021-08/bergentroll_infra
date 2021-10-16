@@ -14,7 +14,15 @@ variable "private_key_path" {
   description = "Path to the private key used for SSH access"
 }
 
-variable "image_id" {}
+variable "app_disk_image" {
+  description = "Reddit application runtime image"
+  default     = "reddit-ruby"
+}
+
+variable "db_disk_image" {
+  description = "Reddit application database image"
+  default     = "reddit-db"
+}
 
 variable "service_account_key_file" {
   default = null

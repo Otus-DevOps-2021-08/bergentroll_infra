@@ -1,5 +1,6 @@
 folder_id = "00000000000000000000"
 private_key_path = "~/.ssh/appuser_rsa"
 public_key_path = "~/.ssh/appuser_rsa.pub"
-image_id = "00000000000000000000"
+app_disk_image = "00000000000000000000"
+db_disk_image = "00000000000000000000"
 service_account_key_file = "key.json"

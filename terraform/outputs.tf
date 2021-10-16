@@ -12,6 +12,10 @@ output "hosts_ip_addresses" {
   ]
 }
 
+output "app_image" {
+  value = data.yandex_compute_image.app_image
+}
+
 #output "external_ip_address_app" {
 #  description = "Assigned instance IPv4 address"
 #  value       = local.listener_ip
