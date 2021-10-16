@@ -16,8 +16,6 @@ variable "private_key_path" {
 
 variable "image_id" {}
 
-variable "subnet_id" {}
-
 variable "service_account_key_file" {
   default = null
 }
