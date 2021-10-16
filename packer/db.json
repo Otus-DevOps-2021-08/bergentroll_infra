@@ -1,0 +1,36 @@
+{
+  "builders": [
+    {
+      "type": "yandex",
+      "service_account_key_file": "{{ user `service_account_key_file` }}",
+      "folder_id": "{{ user `folder_id` }}",
+      "source_image_id": "{{ user `source_image_id` }}",
+      "image_name": "reddit-db-{{ timestamp }}",
+      "image_family": "reddit-db",
+      "ssh_username": "ubuntu",
+      "ssh_private_key_file": "{{ user `ssh_private_key_file` }}",
+      "use_ipv4_nat": true,
+      "platform_id": "standard-v1",
+      "subnet_id": "{{ user `subnet_id` }}",
+      "zone": "{{ user `zone` }}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo systemctl disable apt-daily.timer",
+        "sudo systemctl stop apt-daily"
+      ]
+    },
+    {
+      "type": "shell",
+      "script": "scripts/lock_guard.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/install_mongodb.sh",
+      "execute_command": "sudo {{.Path}}"
+    }
+  ]
+}
