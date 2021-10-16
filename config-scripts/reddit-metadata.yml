@@ -14,4 +14,3 @@ runcmd:
   - wget -qO - https://storage.yandexcloud.net/bergentroll-otus/cloud-testapp/install_ruby.sh | bash
   - wget -qO - https://storage.yandexcloud.net/bergentroll-otus/cloud-testapp/install_mongodb.sh | bash
   - wget -qO - https://storage.yandexcloud.net/bergentroll-otus/cloud-testapp/deploy.sh | bash
-

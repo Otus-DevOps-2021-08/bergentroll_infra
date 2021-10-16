@@ -1,0 +1,13 @@
+[Unit]
+Description=Otus reddit exercise application
+After=network-online.target
+
+[Service]
+Type=simple
+User=puma
+WorkingDirectory=/srv/reddit/
+ExecStart=/usr/local/bin/puma -p ${puma_port}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
