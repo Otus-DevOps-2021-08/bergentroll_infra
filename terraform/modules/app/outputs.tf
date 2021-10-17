@@ -10,3 +10,7 @@ output "image_name" {
   description = "Name of image used to set up hosts"
   value       = data.yandex_compute_image.app_image.name
 }
+
+output "compute_instance_ids" {
+  value = tolist(yandex_compute_instance.app[*].id)
+}

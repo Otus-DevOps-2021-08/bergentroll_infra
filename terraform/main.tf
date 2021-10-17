@@ -6,18 +6,18 @@ provider "yandex" {
 }
 
 module "app" {
-  source           = "./modules/app"
+  source           = "./modules/app/"
   folder_id        = var.folder_id
   instance_num     = var.app_instance_num
   public_key_path  = var.public_key_path
-  private_key_path = var.public_key_path
+  private_key_path = var.private_key_path
   app_disk_image   = var.app_disk_image
   subnet_id        = module.vpc.subnet_id
   puma_port        = var.puma_port
 }
 
 module "db" {
-  source           = "./modules/db"
+  source           = "./modules/db/"
   folder_id        = var.folder_id
   public_key_path  = var.public_key_path
   private_key_path = var.public_key_path
@@ -26,9 +26,14 @@ module "db" {
 }
 
 module "vpc" {
-  source    = "./modules/vpc"
+  source    = "./modules/vpc/"
   folder_id = var.folder_id
   zone      = var.zone
 }
 
-# TODO module "lb" {
+module "lb" {
+  source               = "./modules/lb/"
+  subnet_id            = module.vpc.subnet_id
+  puma_port            = var.puma_port
+  compute_instance_ids = module.app.compute_instance_ids
+}

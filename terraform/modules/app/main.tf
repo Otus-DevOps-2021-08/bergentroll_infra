@@ -36,13 +36,15 @@ resource "yandex_compute_instance" "app" {
     private_key = file(var.private_key_path)
   }
 
-  # TODO Implement
-  #provisioner "file" {
-  #  content     = templatefile("files/puma.service", { puma_port = var.puma_port })
-  #  destination = "/tmp/puma.service"
-  #}
+  provisioner "file" {
+    content = templatefile(
+      "${path.module}/files/puma.service",
+      { puma_port = var.puma_port }
+    )
+    destination = "/tmp/puma.service"
+  }
 
-  #provisioner "remote-exec" {
-  #  script = "files/deploy.sh"
-  #}
+  provisioner "remote-exec" {
+    script = "${path.module}/files/deploy.sh"
+  }
 }
