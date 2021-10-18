@@ -14,6 +14,7 @@ module "app" {
   app_disk_image   = var.app_disk_image
   subnet_id        = module.vpc.subnet_id
   puma_port        = var.puma_port
+  db_ip            = module.db.internal_ip_address
 }
 
 module "db" {

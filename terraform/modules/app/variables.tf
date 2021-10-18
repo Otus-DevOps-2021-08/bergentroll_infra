@@ -21,3 +21,8 @@ variable "app_disk_image" {
 variable "subnet_id" {}
 
 variable "puma_port" { default = 9292 }
+
+variable "db_ip" {
+  description = "Database apliance address"
+  default     = "localhost"
+}

@@ -84,7 +84,14 @@ carefully handle changes in multiple places.
 
 ## Terraform 2
 
+DONE:
+- Split instance to DB-host and app instances
+- Separate Terraform modules
+- Drive a car for the first time
+
 TODO:
-- Fix application provisioning
-- Manager interhost connection
-- Return load balancer provisioning
+- ~~Fix application provisioning~~
+- ~~Manager interhost connection~~
+- ~~Return load balancer provisioning~~
+- Remote state file
+- Environments [prod, dev]
