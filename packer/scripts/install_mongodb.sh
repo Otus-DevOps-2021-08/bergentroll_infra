@@ -17,4 +17,7 @@ echo \
 
 apt-get update -y
 apt-get install -y mongodb-org
+
+sed -i 's/bindIp: 127.0.0.1/bindIpAll: true/g' /etc/mongod.conf
+
 systemctl enable --now mongod.service
