@@ -4,7 +4,7 @@ data "yandex_compute_image" "db_image" {
 }
 
 resource "yandex_compute_instance" "db" {
-  name                      = "reddit-db-tf"
+  name                      = "${var.name_prefix}reddit-db-tf"
   platform_id               = "standard-v2"
   allow_stopping_for_update = true
 

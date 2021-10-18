@@ -26,3 +26,5 @@ variable "db_ip" {
   description = "Database apliance address"
   default     = "localhost"
 }
+
+variable "name_prefix" { default = "" }

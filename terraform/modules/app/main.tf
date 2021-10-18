@@ -5,7 +5,7 @@ data "yandex_compute_image" "app_image" {
 
 resource "yandex_compute_instance" "app" {
   count                     = var.instance_num
-  name                      = "reddit-app-tf-${count.index}"
+  name                      = "${var.name_prefix}reddit-app-tf-${count.index}"
   platform_id               = "standard-v2"
   allow_stopping_for_update = true
 
