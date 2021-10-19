@@ -1,0 +1,2 @@
+appserver ansible_host=193.32.219.124 ansible_user=ubuntu ansible_private_key_file=~/.ssh/sync/appuser_rsa
+dbserver ansible_host=192.168.11.8 ansible_user=ubuntu ansible_private_key_file=~/.ssh/sync/appuser_rsa ansible_ssh_common_args="-J ubuntu@193.32.219.124"
