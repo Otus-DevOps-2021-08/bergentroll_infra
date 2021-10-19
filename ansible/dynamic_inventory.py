@@ -51,12 +51,12 @@ if __name__ == '__main__':
     indent_size = 2
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--load', action='store_true')
+    parser.add_argument('--list', action='store_true')
     parser.add_argument('--host')
 
     args = parser.parse_args()
 
-    if args.load:
+    if args.list:
         print(json.dumps(make_list(), indent=indent_size))
     elif args.host:
         print(json.dumps(make_host(args.host), indent=indent_size))
