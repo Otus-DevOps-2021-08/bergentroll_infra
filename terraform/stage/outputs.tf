@@ -3,9 +3,9 @@ output "external_ip_address_app" {
   value       = module.app.external_ip_address
 }
 
-output "external_ip_address_db" {
+output "internal_ip_address_db" {
   description = "Assigned instance database IPv4 address" # TODO
-  value       = module.db.external_ip_address
+  value       = module.db.internal_ip_address
 }
 
 output "app_image" {
