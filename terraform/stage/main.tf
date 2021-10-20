@@ -20,6 +20,7 @@ module "app" {
   puma_port        = var.puma_port
   db_ip            = module.db.internal_ip_address
   name_prefix      = local.name_prefix
+  deploy           = var.deploy
 }
 
 module "db" {
