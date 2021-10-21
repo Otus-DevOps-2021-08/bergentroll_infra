@@ -1,48 +1,80 @@
 ---
 - name: Configure hosts & deploy application
   hosts: all
+  gather_facts: false
   vars:
     mongo_bind_ip: '0.0.0.0'
-    db_host: '192.168.11.27'  # FIXME
+    db_host: '{{ groups["db"] | first }}'
+    app_path: /srv/reddit/
   tasks:
+    - name: Echo
+      tags: debug-tag
+      debug:
+        var: db_host
     - name: Change mongo config file
       become: true
+      tags: db-tag
+      notify: restart mongod
       template:
         src: templates/mongod.conf.j2
         dest: /etc/mongod.conf
         mode: 0644
-      tags: db-tag
-      notify: restart mongod
     - name: Add unit file for Puma
       become: true
+      tags: app-tag
+      notify: restart puma
       copy:
         src: files/puma.service
         dest: /etc/systemd/system/puma.service
-      tags: app-tag
-      notify: restart puma
+        mode: '644'
     - name: Create a system user
       become: true
       tags: app-tag
       user:
         name: appuser
-        home: /srv/reddit/
         system: true
+        home: '{{ app_path }}/'
+        create_home: false
     - name: Create conf.d
       become: true
       tags: app-tag
       file:
         path: /etc/conf.d/
         state: directory
+        mode: '755'
     - name: Add config for DB connection
       become: true
+      tags: app-tag
+      notify: restart puma
       template:
         src: templates/db_config.j2
         dest: /etc/conf.d/puma.conf
+        mode: '644'
+    - name: Install git
+      become: true
+      tags: app-tag
+      package:
+        name: git
+        state: present
+    - name: Fetch the latest version of application code
+      become: true
       tags: app-tag
       notify: restart puma
+      git:
+        repo: 'https://github.com/express42/reddit.git'
+        dest: '{{ app_path }}/'
+        version: monolith
+        force: true
+    - name: Bundle install
+      tags: app-tag
+      bundler:
+        state: present
+        chdir: '{{ app_path }}/'
     - name: enable puma
       become: true
-      systemd: name=puma enabled=yes
+      systemd:
+        name: puma
+        enabled: true
       tags: app-tag
   handlers:
     - name: restart mongod
