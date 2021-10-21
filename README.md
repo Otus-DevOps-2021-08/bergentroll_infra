@@ -108,3 +108,8 @@ groups. Optionally may be provided dictionary of host variables.
 Has been implemented [dynamic_inventory.py](ansible/dynamic_inventory.py)
 script to get data in `--list` and `--host NAME` formats from static
 `inventory.json`.
+
+## Ansible 2
+
+FIXME:
+- Terraform provisioned db port is inconsistent with playbook

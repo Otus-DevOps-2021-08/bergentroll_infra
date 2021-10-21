@@ -3,6 +3,7 @@
   hosts: all
   vars:
     mongo_bind_ip: '0.0.0.0'
+    db_host: '192.168.11.27'  # FIXME
   tasks:
     - name: Change mongo config file
       become: true
@@ -12,7 +13,41 @@
         mode: 0644
       tags: db-tag
       notify: restart mongod
+    - name: Add unit file for Puma
+      become: true
+      copy:
+        src: files/puma.service
+        dest: /etc/systemd/system/puma.service
+      tags: app-tag
+      notify: restart puma
+    - name: Create a system user
+      become: true
+      tags: app-tag
+      user:
+        name: appuser
+        home: /srv/reddit/
+        system: true
+    - name: Create conf.d
+      become: true
+      tags: app-tag
+      file:
+        path: /etc/conf.d/
+        state: directory
+    - name: Add config for DB connection
+      become: true
+      template:
+        src: templates/db_config.j2
+        dest: /etc/conf.d/puma.conf
+      tags: app-tag
+      notify: restart puma
+    - name: enable puma
+      become: true
+      systemd: name=puma enabled=yes
+      tags: app-tag
   handlers:
     - name: restart mongod
       become: true
-      service: name=mongod state=restarted
+      systemd: name=mongod state=restarted
+    - name: restart puma
+      become: true
+      systemd: name=puma state=restarted
