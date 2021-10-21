@@ -10,7 +10,7 @@ resource "local_file" "inventory" {
 }
 
 resource "local_file" "inventory_json" {
-  content = jsonencode(
+  content = "${jsonencode(
     {
       "app" = {
         "hosts" = {
@@ -25,7 +25,7 @@ resource "local_file" "inventory_json" {
         }
       }
     }
-  )
+  )}\n"
   filename = "${var.output_dir}/inventory.json"
 }
 
