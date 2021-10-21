@@ -48,3 +48,10 @@ module "lb" {
   compute_instance_ids = module.app.compute_instance_ids
   name_prefix          = local.name_prefix
 }
+
+module "inventory" {
+  source     = "../modules/inventory/"
+  db_hosts   = { "${module.db.instance_name}" = module.db.internal_ip_address }
+  app_hosts  = module.app.external_ip_address
+  output_dir = "../../ansible/"
+}
