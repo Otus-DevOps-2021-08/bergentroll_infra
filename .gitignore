@@ -1,7 +1,15 @@
-variables.json
+# Yandex
 key.json
+
+# Packer
+variables.json
+
+# Terraform
 *.tfstate
 *.backup
 *.tfvars
 *.lock.hcl
 .terraform/
+
+# Ansible
+*retry
