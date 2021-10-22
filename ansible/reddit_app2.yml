@@ -1,0 +1,20 @@
+---
+- name: Configure MongoDB for app
+  hosts: db
+  tags: db-tag
+  become: true
+  gather_facts: false
+  vars:
+    mongo_bind_ip: '0.0.0.0'
+    db_host: '{{ groups["db"] | first }}'
+    app_path: /srv/reddit/
+  tasks:
+    - name: Change mongo config file
+      notify: restart mongod
+      template:
+        src: templates/mongod.conf.j2
+        dest: /etc/mongod.conf
+        mode: 0644
+  handlers:
+    - name: restart mongod
+      systemd: name=mongod state=restarted
