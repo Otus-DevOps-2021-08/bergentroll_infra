@@ -15,8 +15,13 @@ from yandex.cloud.resourcemanager.v1.cloud_service_pb2 import ListCloudsRequest
 def load_config() -> dict:
     parser = configparser.ConfigParser()
     parser.read('yac_inventory.conf')
-    return dict(parser['general'])
+    config = dict(parser['general'])
 
+    if ('internal' in [config['db_hosts_interface'], config['app_hosts_interface']]
+            and not config.get('jump_host')):
+        raise RuntimeError('Jump host is required, but not specified')
+
+    return config
 
 def make_list(config: dict) -> dict:
     def _interface_switch(instance: dict, interface_type: str) -> str:
@@ -44,6 +49,9 @@ def make_list(config: dict) -> dict:
     app_hosts = []
     db_hosts = []
 
+    jump_host = config.get('jump_host')
+    jump_host_ip = None
+
     for i in instances:
         name = i['name']
         if 'reddit-app' in name:
@@ -51,15 +59,34 @@ def make_list(config: dict) -> dict:
         elif 'reddit-db' in name:
             db_hosts.append(i)
 
+        if jump_host and jump_host in name:
+            jump_host_ip = _interface_switch(i, 'external')
+
+    if jump_host and not jump_host_ip:
+        raise RuntimeError(f'Jump host {jump_host} not found')
+
     return {
-        'db': [
-            _interface_switch(i, config['db_hosts_interface'])
-            for i in db_hosts
-        ],
-        'app': [
-            _interface_switch(i, config['app_hosts_interface'])
-            for i in app_hosts
-        ],
+        '_meta': {
+            'hostvars': {},
+        },
+        'db': {
+            'hosts': [
+                _interface_switch(i, config['db_hosts_interface'])
+                for i in db_hosts
+            ],
+            'vars': {
+                'ansible_ssh_common_args': f'-J ubuntu@{jump_host_ip}',
+            } if config['db_hosts_interface'] == 'internal' else {}
+        },
+        'app': {
+            'hosts': [
+                _interface_switch(i, config['app_hosts_interface'])
+                for i in app_hosts
+            ],
+            'vars': {
+                'ansible_ssh_common_args': f'-J ubuntu@{jump_host_ip}',
+            } if config['app_hosts_interface'] == 'internal' else {}
+        },
     }
 
 
