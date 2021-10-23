@@ -111,5 +111,10 @@ script to get data in `--list` and `--host NAME` formats from static
 
 ## Ansible 2
 
+`yac_inventory.py` implements dynamic inventory script to obtain application
+hosts from YAC by instance name. It supports iventory with jump ("bastion")
+host config. See `yac_inventory_example.conf` (config file is expected to have
+the `yac_inventory.conf` name).
+
 FIXME:
 - Terraform provisioned db port is inconsistent with playbook
