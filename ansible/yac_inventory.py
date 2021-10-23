@@ -23,19 +23,21 @@ def load_config() -> dict:
 
     return config
 
-def make_list(config: dict) -> dict:
-    def _interface_switch(instance: dict, interface_type: str) -> str:
-        if interface_type == 'internal':
-            return (
-                instance['networkInterfaces'][0]['primaryV4Address']
-                ['address'])
-        elif interface_type == 'external':
-            return (
-                instance['networkInterfaces'][0]['primaryV4Address']
-                ['oneToOneNat']['address'])
-        else:
-            raise RuntimeError(f'Unknown interface type "{interface_type}"')
 
+def _interface_switch(instance: dict, interface_type: str) -> str:
+    if interface_type == 'internal':
+        return (
+            instance['networkInterfaces'][0]['primaryV4Address']
+            ['address'])
+    elif interface_type == 'external':
+        return (
+            instance['networkInterfaces'][0]['primaryV4Address']
+            ['oneToOneNat']['address'])
+    else:
+        raise RuntimeError(f'Unknown interface type "{interface_type}"')
+
+
+def make_list(config: dict) -> dict:
     with open(config.get('key_file', 'key.json'), 'r') as file:
         key = json.loads(file.read())
 
