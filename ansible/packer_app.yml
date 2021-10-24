@@ -1,5 +1,8 @@
 ---
 
+- name: Prepare to provisioning
+  import_playbook: packer_disable_apt-daily.yml
+
 - name: Prepare Ruby runtime
   hosts: default
   gather_facts: false
@@ -13,3 +16,4 @@
           - build-essential
           - git
         state: latest
+        update_cache: true
