@@ -1,1 +1,2 @@
 yandexcloud>=0.109.0
+pyyaml>=6.0

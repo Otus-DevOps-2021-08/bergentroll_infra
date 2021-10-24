@@ -1,0 +1,15 @@
+---
+
+general:
+  folder_id: 00000000000000000000
+  key_file: key.json
+  jump_host: BASTION_INSTANCE_NAME
+  jump_host_user: ubuntu
+
+groups:
+  - name: db
+    match: reddit-db
+    internal_interface: true
+  - name: app
+    match: reddit-app
+    internal_interface: false
