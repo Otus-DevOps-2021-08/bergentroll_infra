@@ -17,20 +17,9 @@
   ],
   "provisioners": [
     {
-      "type": "shell",
-      "inline": [
-        "sudo systemctl disable apt-daily.timer",
-        "sudo systemctl stop apt-daily"
-      ]
-    },
-    {
-      "type": "shell",
-      "script": "scripts/lock_guard.sh"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/install_mongodb.sh",
-      "execute_command": "sudo {{.Path}}"
+      "type": "ansible",
+      "playbook_file": "ansible/packer_db.yml",
+      "use_proxy": false
     }
   ]
 }
