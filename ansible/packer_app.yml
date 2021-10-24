@@ -1,0 +1,14 @@
+---
+
+- name: Prepare Ruby runtime
+  hosts: default
+  gather_facts: false
+  #become: true
+  tasks:
+    - name: Install Ruby
+      package:
+        name:
+          - ruby-full
+          - ruby-bundler
+          - build-essential
+        state: latest
