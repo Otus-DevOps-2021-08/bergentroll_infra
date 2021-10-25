@@ -1,6 +1,6 @@
 [app]
-stage-reddit-app-tf-0 ansible_host=62.84.114.118
-stage-reddit-app-tf-1 ansible_host=62.84.117.79
+stage-reddit-app-tf-0 ansible_host=178.154.226.96
+stage-reddit-app-tf-1 ansible_host=84.201.158.238
 
 [db]
-stage-reddit-db-tf ansible_host=192.168.11.6
+stage-reddit-db-tf ansible_host=192.168.11.4

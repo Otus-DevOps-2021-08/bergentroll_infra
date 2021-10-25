@@ -1,0 +1,29 @@
+---
+
+- name: Add unit file for Puma
+  copy:
+    src: puma.service
+    dest: /etc/systemd/system/puma.service
+    mode: '644'
+  notify: restart puma
+- name: Create a system user
+  user:
+    name: appuser
+    system: true
+    home: '{{ app_path }}/'
+    create_home: false
+- name: Create conf.d
+  file:
+    path: /etc/conf.d/
+    state: directory
+    mode: '755'
+- name: Add config for DB connection
+  template:
+    src: db_config.j2
+    dest: /etc/conf.d/puma.conf
+    mode: '644'
+  notify: restart puma
+- name: enable puma
+  systemd:
+    name: puma
+    enabled: true
