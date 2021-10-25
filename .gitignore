@@ -13,3 +13,6 @@ variables.json
 
 # Ansible
 *retry
+
+# Custom
+yac_inventory_conf.yml
