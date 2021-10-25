@@ -1,13 +1,11 @@
-provider "yandex" {
-  service_account_key_file = var.service_account_key_file
-  cloud_id                 = var.cloud_id
-  folder_id                = var.folder_id
-  zone                     = var.zone
+data "yandex_compute_image" "app_image" {
+  family    = var.app_disk_image
+  folder_id = var.folder_id
 }
 
 resource "yandex_compute_instance" "app" {
   count                     = var.instance_num
-  name                      = "reddit-app-tf-${count.index}"
+  name                      = "${var.name_prefix}reddit-app-tf-${count.index}"
   platform_id               = "standard-v2"
   allow_stopping_for_update = true
 
@@ -18,11 +16,11 @@ resource "yandex_compute_instance" "app" {
   resources {
     cores         = 2
     core_fraction = 5
-    memory        = 2
+    memory        = 1
   }
 
   boot_disk {
-    initialize_params { image_id = var.image_id }
+    initialize_params { image_id = data.yandex_compute_image.app_image.id }
   }
 
   network_interface {
@@ -39,11 +37,17 @@ resource "yandex_compute_instance" "app" {
   }
 
   provisioner "file" {
-    content     = templatefile("files/puma.service", { puma_port = var.puma_port })
+    content = templatefile(
+      "${path.module}/files/puma.service",
+      {
+        puma_port = var.puma_port
+        db_ip     = var.db_ip
+      }
+    )
     destination = "/tmp/puma.service"
   }
 
   provisioner "remote-exec" {
-    script = "files/deploy.sh"
+    script = "${path.module}/files/deploy.sh"
   }
 }

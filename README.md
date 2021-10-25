@@ -81,3 +81,21 @@ balancer.
 
 Config with hardcoded multiple similar resources seams fragile and needs to
 carefully handle changes in multiple places.
+
+## Terraform 2
+
+DONE:
+- Split instance to DB-host and app instances
+- Separate Terraform modules
+- Stage and prod environment dirs
+- Remote S3 object state files (init with `terrafrom init
+  -backend-config="access_key=ACCESS_KEY"
+  -backend-config="secret_key=SECRET_KEY"`)
+- Drive a car for the first time
+
+TODO:
+- ~~Fix application provisioning~~
+- ~~Manager interhost connection~~
+- ~~Return load balancer provisioning~~
+- ~~Remote state file~~
+- ~~Environments [prod, dev]~~

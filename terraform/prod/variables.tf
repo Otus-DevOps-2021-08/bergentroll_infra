@@ -14,15 +14,22 @@ variable "private_key_path" {
   description = "Path to the private key used for SSH access"
 }
 
-variable "image_id" {}
-
-variable "subnet_id" {}
-
-variable "service_account_key_file" {
-  default = null
+variable "app_disk_image" {
+  description = "Reddit application runtime image"
+  default     = "reddit-ruby"
 }
 
-variable "instance_num" {
+variable "db_disk_image" {
+  description = "Reddit application database image"
+  default     = "reddit-db"
+}
+
+variable "service_account_key_file" {
+  description = "YC secrets JSON file"
+  default     = null
+}
+
+variable "app_instance_num" {
   description = "Amount of application hosts"
   default     = 1
 }
