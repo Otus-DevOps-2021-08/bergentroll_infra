@@ -80,7 +80,9 @@ class ListComposer():
 
         resp = instance_service.List(
             ListInstancesRequest(folder_id=conf_general['folder_id']))
-        self._instances = MessageToDict(resp)['instances']
+        self._instances = list(filter(
+            lambda i: i.get('status') == 'RUNNING',
+            MessageToDict(resp)['instances']))
 
     @staticmethod
     def _get_ipv4(instance: dict, is_internal: bool) -> str:
