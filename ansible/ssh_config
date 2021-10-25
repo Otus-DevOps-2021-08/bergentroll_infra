@@ -1,2 +1,0 @@
-Host 192.168.11.4
-  ProxyJump ubuntu@178.154.226.96
