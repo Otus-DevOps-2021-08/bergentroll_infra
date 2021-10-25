@@ -1,0 +1,87 @@
+---
+- name: Configure MongoDB for app
+  hosts: db
+  tags: db-tag
+  become: true
+  gather_facts: false
+  vars:
+    mongo_bind_ip: '0.0.0.0'
+  tasks:
+    - name: Change mongo config file
+      notify: restart mongod
+      template:
+        src: templates/mongod.conf.j2
+        dest: /etc/mongod.conf
+        mode: 0644
+  handlers:
+    - name: restart mongod
+      systemd: name=mongod state=restarted
+
+- name: Configure app hosts
+  hosts: app
+  tags: app-tag
+  become: true
+  gather_facts: false
+  vars:
+    db_host: '{{ groups["db"] | first }}'
+    app_path: /srv/reddit/
+  tasks:
+    - name: Add unit file for Puma
+      notify: restart puma
+      copy:
+        src: files/puma.service
+        dest: /etc/systemd/system/puma.service
+        mode: '644'
+    - name: Create a system user
+      user:
+        name: appuser
+        system: true
+        home: '{{ app_path }}/'
+        create_home: false
+    - name: Create conf.d
+      file:
+        path: /etc/conf.d/
+        state: directory
+        mode: '755'
+    - name: Add config for DB connection
+      notify: restart puma
+      template:
+        src: templates/db_config.j2
+        dest: /etc/conf.d/puma.conf
+        mode: '644'
+    - name: enable puma
+      systemd:
+        name: puma
+        enabled: true
+  handlers:
+    - name: restart puma
+      systemd: name=puma state=restarted
+
+- name: Deploy application
+  hosts: app
+  tags: deploy-tag
+  become: true
+  gather_facts: false
+  vars:
+    db_host: '{{ groups["db"] | first }}'
+    app_path: /srv/reddit/
+  tasks:
+    - name: Install git
+      package:
+        name: git
+        state: present
+    - name: Fetch the latest version of application code
+      notify: restart puma
+      git:
+        repo: 'https://github.com/express42/reddit.git'
+        dest: '{{ app_path }}/'
+        version: monolith
+        force: true
+    - name: Bundle install
+      become: false
+      bundler:
+        state: present
+        chdir: '{{ app_path }}/'
+  handlers:
+    - name: restart puma
+      systemd: name=puma state=restarted

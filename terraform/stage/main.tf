@@ -20,6 +20,7 @@ module "app" {
   puma_port        = var.puma_port
   db_ip            = module.db.internal_ip_address
   name_prefix      = local.name_prefix
+  deploy           = var.deploy
 }
 
 module "db" {
@@ -46,4 +47,11 @@ module "lb" {
   puma_port            = var.puma_port
   compute_instance_ids = module.app.compute_instance_ids
   name_prefix          = local.name_prefix
+}
+
+module "inventory" {
+  source     = "../modules/inventory/"
+  db_hosts   = { "${module.db.instance_name}" = module.db.internal_ip_address }
+  app_hosts  = module.app.external_ip_address
+  output_dir = "../../ansible/"
 }

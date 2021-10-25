@@ -1,2 +1,2 @@
-Host 192.168.11.*
-  ProxyJump ubuntu@193.32.219.124
+Host 192.168.11.6
+  ProxyJump ubuntu@62.84.114.118

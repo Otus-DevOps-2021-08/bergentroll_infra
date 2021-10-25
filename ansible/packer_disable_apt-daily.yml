@@ -1,0 +1,16 @@
+---
+
+- name: Disable apt-daily
+  hosts: default
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Disable apt-daily.timer
+      service:
+        name: apt-daily.timer
+        enabled: false
+        state: stopped
+    - name: Stop apt-daily
+      service:
+        name: apt-daily.timer
+        state: stopped

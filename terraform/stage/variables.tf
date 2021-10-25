@@ -43,3 +43,8 @@ variable "load_balancer_port" {
   description = "Port to expose an application"
   default     = 80
 }
+
+variable "deploy" {
+  type    = bool
+  default = true
+}

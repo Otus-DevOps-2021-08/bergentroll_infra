@@ -28,3 +28,8 @@ variable "db_ip" {
 }
 
 variable "name_prefix" { default = "" }
+
+variable "deploy" {
+  type    = bool
+  default = true
+}

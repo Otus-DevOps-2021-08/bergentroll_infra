@@ -1,6 +1,6 @@
 {
-  "service_account_key_file": "./key-example.json",
-  "ssh_private_key_file": "./example_id_rsa",
+  "service_account_key_file": "./packer/key-example.json",
+  "ssh_private_key_file": "./packer/example_id_rsa",
   "folder_id": "b1g1c2edoofrofrhbeer",
   "subnet_id": "e9b3vj6sa7i9ebev0icv",
   "zone": "ru-central1-a",

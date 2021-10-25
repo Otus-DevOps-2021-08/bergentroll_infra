@@ -108,3 +108,20 @@ groups. Optionally may be provided dictionary of host variables.
 Has been implemented [dynamic_inventory.py](ansible/dynamic_inventory.py)
 script to get data in `--list` and `--host NAME` formats from static
 `inventory.json`.
+
+## Ansible 2
+
+`yac_inventory.py` implements dynamic inventory script to obtain application
+hosts from YAC by instance name. It supports iventory with jump ("bastion") host
+config. See `yac_inventory_conf.yml.example` (config file is expected to have
+the `yac_inventory_conf.yml` name).
+
+What is done:
+- All required variants of Ansible playbooks
+- Switch Packer from shell provisioner to Ansible.
+Actually it was tricky due to dpkg lock issue. It has been resolved with package
+refresh flag which makes Ansible do few retries.
+- Nice custom `yac_inventory.py` for dynamic inventory from YAC
+
+FIXME:
+- Terraform provisioned db port is inconsistent with playbook
