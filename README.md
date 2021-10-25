@@ -113,7 +113,7 @@ script to get data in `--list` and `--host NAME` formats from static
 
 `yac_inventory.py` implements dynamic inventory script to obtain application
 hosts from YAC by instance name. It supports iventory with jump ("bastion") host
-config. See `yac_inventory_conf_example.yml` (config file is expected to have
+config. See `yac_inventory_conf.yml.example` (config file is expected to have
 the `yac_inventory_conf.yml` name).
 
 FIXME:
