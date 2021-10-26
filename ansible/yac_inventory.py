@@ -4,6 +4,7 @@ import argparse
 import copy
 import json
 import logging
+import os
 import typing as T
 
 import yaml
@@ -33,12 +34,13 @@ class ListComposer():
 
     _group_obligatory_fields = {'name', 'match', 'internal_interface'}
 
-    def __init__(self):
+    def __init__(self, config_filename: str = None):
         self._logger = logging.getLogger(__name__)
         self._config = copy.deepcopy(self._config_template)
-        self._instances = []
+        self._instances: T.List[T.Dict] = []
 
-        self.deep_update(self._config, self._load_config())
+        # TODO Separate config parser class
+        self.deep_update(self._config, self._load_config(config_filename))
         self._logger.debug(f'Config is {self._config}')
         self._validate_config()
 
@@ -52,9 +54,15 @@ class ListComposer():
 
         return dst_dict
 
-    @staticmethod
-    def _load_config() -> dict:
-        with open('yac_inventory_conf.yml', 'r') as file:
+    def _load_config(self, config_filename) -> dict:
+        filename = 'yac_inventory_conf.yml'
+        self._config_dir = os.getcwd()
+
+        if config_filename is not None:
+            filename = config_filename
+            self._config_dir = os.path.dirname(config_filename)
+
+        with open(filename, 'r') as file:
             return yaml.safe_load(file.read())
 
     def _validate_config(self) -> None:
@@ -71,8 +79,9 @@ class ListComposer():
 
     def _set_instance_list_from_remote(self) -> None:
         conf_general = self._config['general']
+        key_file = os.path.join(self._config_dir, conf_general['key_file'])
 
-        with open(conf_general['key_file'], 'r') as file:
+        with open(key_file, 'r') as file:
             key = json.loads(file.read())
 
         sdk = yandexcloud.SDK(service_account_key=key)
@@ -153,11 +162,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--list', action='store_true')
     parser.add_argument('--host')
+    parser.add_argument('--config')
 
     args = parser.parse_args()
 
     if args.list:
-        composer = ListComposer()
+        composer = ListComposer(config_filename=args.config)
         print(json.dumps(composer.get_list(), indent=INDENT_SIZE))
     elif args.host:
         print(json.dumps({}, indent=INDENT_SIZE))
