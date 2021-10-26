@@ -159,10 +159,10 @@ if __name__ == '__main__':
     logging.basicConfig()
     logging.getLogger().setLevel(LOGGING_LEVEL)
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--list', action='store_true')
-    parser.add_argument('--host')
-    parser.add_argument('--config')
+    parser = argparse.ArgumentParser(description='Provides Ansible dynamic inventory for Yandex Cloud hosts')
+    parser.add_argument('--list', action='store_true', help='Get JSON with hosts')
+    parser.add_argument('--host', help='Get JSON with variables for host (not implemented)')
+    parser.add_argument('--config', help='Pass alternative config file')
 
     args = parser.parse_args()
 
