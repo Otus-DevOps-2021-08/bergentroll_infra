@@ -1,0 +1,3 @@
+db_host: '{{ groups["db"] | first }}'
+
+# vi: syn=yaml

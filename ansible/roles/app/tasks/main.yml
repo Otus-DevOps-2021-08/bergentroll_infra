@@ -1,5 +1,8 @@
 ---
 
+- name: Print info
+  debug:
+    msg: "The host is in {{ env }} environment"
 - name: Add unit file for Puma
   copy:
     src: puma.service

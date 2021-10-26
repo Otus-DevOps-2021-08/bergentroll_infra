@@ -4,7 +4,5 @@
   hosts: app
   become: true
   gather_facts: false
-  vars:
-    db_host: '{{ groups["db"] | first }}'
   roles:
     - app

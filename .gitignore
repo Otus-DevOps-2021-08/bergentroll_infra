@@ -15,4 +15,4 @@ variables.json
 *retry
 
 # Custom
-yac_inventory_conf.yml
+yac_inventory_*.yml
