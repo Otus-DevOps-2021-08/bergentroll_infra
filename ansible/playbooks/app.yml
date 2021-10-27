@@ -3,6 +3,6 @@
 - name: Configure app hosts
   hosts: app
   become: true
-  gather_facts: false
   roles:
     - app
+    - jdauphant.nginx

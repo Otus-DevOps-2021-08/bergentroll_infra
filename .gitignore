@@ -13,6 +13,7 @@ variables.json
 
 # Ansible
 *retry
+ansible/roles/jdauphant.nginx
 
 # Custom
 yac_inventory_*.yml
