@@ -15,11 +15,9 @@ from yandex.cloud.compute.v1.instance_service_pb2 import ListInstancesRequest
 from yandex.cloud.compute.v1.instance_service_pb2_grpc import InstanceServiceStub
 
 
-class ListComposer():
-    class ConfigError(RuntimeError):
-        ...
+class Config():
 
-    class ListComposerError(RuntimeError):
+    class ConfigError(RuntimeError):
         ...
 
     _config_template: dict = {
@@ -37,18 +35,22 @@ class ListComposer():
     def __init__(self, config_filename: str = None):
         self._logger = logging.getLogger(__name__)
         self._config = copy.deepcopy(self._config_template)
-        self._instances: T.List[T.Dict] = []
 
-        # TODO Separate config parser class
         self.deep_update(self._config, self._load_config(config_filename))
         self._logger.debug(f'Config is {self._config}')
         self._validate_config()
+
+    def get_conig_dir(self) -> str:
+        return self._config_dir
+
+    def __getitem__(self, key: str):
+        return self._config[key]
 
     @staticmethod
     def deep_update(dst_dict: dict, src_dict: dict) -> dict:
         for key, val in src_dict.items():
             if isinstance(val, dict):
-                dst_dict[key] = ListComposer.deep_update(dst_dict.get(key, {}), val)
+                dst_dict[key] = Config.deep_update(dst_dict.get(key, {}), val)
             else:
                 dst_dict[key] = val
 
@@ -70,16 +72,26 @@ class ListComposer():
             keys = set(group)
             diff = self._group_obligatory_fields.difference(keys)
             if len(diff) > 0:
-                raise ListComposer.ConfigError(f'Obligatory fields [{", ".join(diff)}] is missing for a group')
+                raise Config.ConfigError(f'Obligatory fields [{", ".join(diff)}] is missing for a group')
 
         grp_with_internal = [g['name'] for g in self._config['groups'] if g['internal_interface']]
         if self._config['general']['jump_host'] is None and len(grp_with_internal) > 0:
-            raise ListComposer.ConfigError(
+            raise Config.ConfigError(
                 f'Jump host is required by groups [{", ".join(grp_with_internal)}], but is not specified')
+
+
+class ListComposer():
+    class ListComposerError(RuntimeError):
+        ...
+
+    def __init__(self, config_filename: str = None):
+        self._logger = logging.getLogger(__name__)
+        self._config = Config(config_filename)
+        self._instances: T.List[T.Dict] = []
 
     def _set_instance_list_from_remote(self) -> None:
         conf_general = self._config['general']
-        key_file = os.path.join(self._config_dir, conf_general['key_file'])
+        key_file = os.path.join(self._config.get_conig_dir(), conf_general['key_file'])
 
         with open(key_file, 'r') as file:
             key = json.loads(file.read())
