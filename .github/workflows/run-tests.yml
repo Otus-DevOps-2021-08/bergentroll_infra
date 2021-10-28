@@ -9,9 +9,18 @@ on:
     branches-ignore: main
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Terraform validate
+        uses: dflook/terraform-validate@v1
+        with:
+          path: terraform/
+
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v2
