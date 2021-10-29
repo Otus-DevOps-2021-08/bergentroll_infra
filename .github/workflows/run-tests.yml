@@ -9,45 +9,6 @@ name: Run tests for OTUS homework
     branches-ignore: main
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    container: express42/otus-homeworks:0.7.1
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Terraform validate stage
-        if: always()
-        working-directory: terraform/stage/
-        run: |
-          terraform init -backend=false
-          terraform validate
-      - name: Terraform validate prod
-        if: always()
-        working-directory: terraform/prod/
-        run: |
-          terraform init -backend=false
-          terraform validate
-      - name: Validate Packer db templates
-        if: always()
-        run: >-
-          packer validate
-          -var-file=packer/variables.json.example
-          packer/db.json
-      - name: Validate Packer app templates
-        if: always()
-        run: >-
-          packer validate
-          -var-file=packer/variables.json.example
-          packer/app.json
-      - name: Validate Ansible playbooks
-        if: always()
-        working-directory: ansible/
-        run: >-
-          ansible-lint
-          -x ANSIBLE0004,ANSIBLE0010
-          --exclude=roles/jdauphant.nginx/
-          playbooks/*.yml
-
   test:
     runs-on: ubuntu-latest
     steps:
