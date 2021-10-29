@@ -39,6 +39,10 @@ jobs:
           packer validate
           -var-file=packer/variables.json.example
           packer/app.json
+      - name: Validate Ansible playbooks
+        if: always()
+        working-directory: ansible/
+        run: find -name '*.yml' -type f -exec ansible-lint {} \+
 
   test:
     runs-on: ubuntu-latest
