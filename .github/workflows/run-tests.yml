@@ -2,7 +2,7 @@
 
 name: Run tests for OTUS homework
 
-on:
+'on':
   push:
     branches-ignore: main
   pull_request:
@@ -11,13 +11,34 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    container: express42/otus-homeworks:0.7.1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Terraform validate
-        uses: dflook/terraform-validate@v1
-        with:
-          path: terraform/
+        if: always()
+        working-directory: terraform/stage/
+        run: |
+          terraform init -backend=false
+          terraform validate
+      - name: Terraform validate prod
+        if: always()
+        working-directory: terraform/prod/
+        run: |
+          terraform init -backend=false
+          terraform validate
+      - name: Validate Packer db templates
+        if: always()
+        run: >-
+          packer validate
+          -var-file=packer/variables.json.example
+          packer/db.json
+      - name: Validate Packer app templates
+        if: always()
+        run: >-
+          packer validate
+          -var-file=packer/variables.json.example
+          packer/app.json
 
   test:
     runs-on: ubuntu-latest
