@@ -8,6 +8,9 @@ name: Validate basic configs
   pull_request:
     branches-ignore: main
 
+env:
+  ANSIBLE_LINT_IGNORE: ANSIBLE0004,ANSIBLE0010
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -44,6 +47,6 @@ jobs:
         working-directory: ansible/
         run: >-
           ansible-lint
-          -x ANSIBLE0004,ANSIBLE0010
+          -x ${ANSIBLE_LINT_IGNORE}
           --exclude=roles/jdauphant.nginx/
           playbooks/*.yml
