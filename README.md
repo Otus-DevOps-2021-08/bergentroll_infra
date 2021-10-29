@@ -130,9 +130,9 @@ FIXME:
 
 I did this task so long so I forgot what I actually did.
 
-All boring Ansible stuff moving is done.
-
-GitHub Actions validation is here now! Get the nice bage now and get a 150%
+- All boring Ansible stuff moving is done
+- Dynamic inventory is working
+- GitHub Actions validation is here now! Get the nice bage now and get a 150%
 cashback!
 
 ![bage](https://github.com/Otus-DevOps-2021-08/bergentroll_infra/actions/workflows/validate.yml/badge.svg)
