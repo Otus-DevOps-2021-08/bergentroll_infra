@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Terraform validate
+      - name: Terraform validate stage
         if: always()
         working-directory: terraform/stage/
         run: |
@@ -42,7 +42,11 @@ jobs:
       - name: Validate Ansible playbooks
         if: always()
         working-directory: ansible/
-        run: find -name '*.yml' -type f -exec ansible-lint {} \+
+        run: >-
+          ansible-lint
+          -x ANSIBLE0004,ANSIBLE0010
+          --exclude=roles/jdauphant.nginx/
+          playbooks/*.yml
 
   test:
     runs-on: ubuntu-latest
