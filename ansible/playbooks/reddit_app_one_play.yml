@@ -18,7 +18,7 @@
       template:
         src: templates/mongod.conf.j2
         dest: /etc/mongod.conf
-        mode: 0644
+        mode: '0644'
     - name: Add unit file for Puma
       become: true
       tags: app-tag
@@ -26,7 +26,7 @@
       copy:
         src: files/puma.service
         dest: /etc/systemd/system/puma.service
-        mode: '644'
+        mode: '0644'
     - name: Create a system user
       become: true
       tags: app-tag
@@ -41,7 +41,7 @@
       file:
         path: /etc/conf.d/
         state: directory
-        mode: '755'
+        mode: '0755'
     - name: Add config for DB connection
       become: true
       tags: app-tag
@@ -49,7 +49,7 @@
       template:
         src: templates/db_config.j2
         dest: /etc/conf.d/puma.conf
-        mode: '644'
+        mode: '0644'
     - name: Install git
       become: true
       tags: app-tag

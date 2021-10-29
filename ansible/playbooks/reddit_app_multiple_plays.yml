@@ -12,7 +12,7 @@
       template:
         src: templates/mongod.conf.j2
         dest: /etc/mongod.conf
-        mode: 0644
+        mode: '0644'
   handlers:
     - name: restart mongod
       systemd: name=mongod state=restarted
@@ -31,7 +31,7 @@
       copy:
         src: files/puma.service
         dest: /etc/systemd/system/puma.service
-        mode: '644'
+        mode: '0644'
     - name: Create a system user
       user:
         name: appuser
@@ -42,13 +42,13 @@
       file:
         path: /etc/conf.d/
         state: directory
-        mode: '755'
+        mode: '0755'
     - name: Add config for DB connection
       notify: restart puma
       template:
         src: templates/db_config.j2
         dest: /etc/conf.d/puma.conf
-        mode: '644'
+        mode: '0644'
     - name: enable puma
       systemd:
         name: puma

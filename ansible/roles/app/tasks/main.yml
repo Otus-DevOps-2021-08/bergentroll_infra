@@ -7,7 +7,7 @@
   copy:
     src: puma.service
     dest: /etc/systemd/system/puma.service
-    mode: '644'
+    mode: '0644'
   notify: restart puma
 - name: Create a system user
   user:
@@ -19,12 +19,12 @@
   file:
     path: /etc/conf.d/
     state: directory
-    mode: '755'
+    mode: '0755'
 - name: Add config for DB connection
   template:
     src: db_config.j2
     dest: /etc/conf.d/puma.conf
-    mode: '644'
+    mode: '0644'
   notify: restart puma
 - name: enable puma
   systemd:
