@@ -1,0 +1,11 @@
+db_host: '{{ groups["db"] | first }}'
+
+puma_port: 9292
+
+nginx_sites:
+  default:
+    - listen 80
+    - server_name "reddit"
+    - location / { proxy_pass http://127.0.0.1:{{ puma_port }}; }
+
+# vi: syn=yaml

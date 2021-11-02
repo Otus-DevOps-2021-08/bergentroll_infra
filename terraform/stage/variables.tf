@@ -48,3 +48,5 @@ variable "deploy" {
   type    = bool
   default = true
 }
+
+variable "inventory_output_dir" {}

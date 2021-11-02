@@ -1,5 +1,5 @@
 # Yandex
-key.json
+/key.json
 
 # Packer
 variables.json
@@ -13,6 +13,8 @@ variables.json
 
 # Ansible
 *retry
+ansible/roles/jdauphant.nginx
+ansible/vault.key
 
 # Custom
-yac_inventory_conf.yml
+yac_inventory_*.yml

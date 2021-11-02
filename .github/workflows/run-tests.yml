@@ -2,7 +2,7 @@
 
 name: Run tests for OTUS homework
 
-on:
+'on':
   push:
     branches-ignore: main
   pull_request:
@@ -11,7 +11,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v2

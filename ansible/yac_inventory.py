@@ -4,6 +4,7 @@ import argparse
 import copy
 import json
 import logging
+import os
 import typing as T
 
 import yaml
@@ -14,11 +15,9 @@ from yandex.cloud.compute.v1.instance_service_pb2 import ListInstancesRequest
 from yandex.cloud.compute.v1.instance_service_pb2_grpc import InstanceServiceStub
 
 
-class ListComposer():
-    class ConfigError(RuntimeError):
-        ...
+class Config():
 
-    class ListComposerError(RuntimeError):
+    class ConfigError(RuntimeError):
         ...
 
     _config_template: dict = {
@@ -33,28 +32,39 @@ class ListComposer():
 
     _group_obligatory_fields = {'name', 'match', 'internal_interface'}
 
-    def __init__(self):
+    def __init__(self, config_filename: str = None):
         self._logger = logging.getLogger(__name__)
         self._config = copy.deepcopy(self._config_template)
-        self._instances = []
 
-        self.deep_update(self._config, self._load_config())
+        self.deep_update(self._config, self._load_config(config_filename))
         self._logger.debug(f'Config is {self._config}')
         self._validate_config()
+
+    def get_conig_dir(self) -> str:
+        return self._config_dir
+
+    def __getitem__(self, key: str):
+        return self._config[key]
 
     @staticmethod
     def deep_update(dst_dict: dict, src_dict: dict) -> dict:
         for key, val in src_dict.items():
             if isinstance(val, dict):
-                dst_dict[key] = ListComposer.deep_update(dst_dict.get(key, {}), val)
+                dst_dict[key] = Config.deep_update(dst_dict.get(key, {}), val)
             else:
                 dst_dict[key] = val
 
         return dst_dict
 
-    @staticmethod
-    def _load_config() -> dict:
-        with open('yac_inventory_conf.yml', 'r') as file:
+    def _load_config(self, config_filename) -> dict:
+        filename = 'yac_inventory_conf.yml'
+        self._config_dir = os.getcwd()
+
+        if config_filename is not None:
+            filename = config_filename
+            self._config_dir = os.path.dirname(config_filename)
+
+        with open(filename, 'r') as file:
             return yaml.safe_load(file.read())
 
     def _validate_config(self) -> None:
@@ -62,17 +72,28 @@ class ListComposer():
             keys = set(group)
             diff = self._group_obligatory_fields.difference(keys)
             if len(diff) > 0:
-                raise ListComposer.ConfigError(f'Obligatory fields [{", ".join(diff)}] is missing for a group')
+                raise Config.ConfigError(f'Obligatory fields [{", ".join(diff)}] is missing for a group')
 
         grp_with_internal = [g['name'] for g in self._config['groups'] if g['internal_interface']]
         if self._config['general']['jump_host'] is None and len(grp_with_internal) > 0:
-            raise ListComposer.ConfigError(
+            raise Config.ConfigError(
                 f'Jump host is required by groups [{", ".join(grp_with_internal)}], but is not specified')
+
+
+class ListComposer():
+    class ListComposerError(RuntimeError):
+        ...
+
+    def __init__(self, config_filename: str = None):
+        self._logger = logging.getLogger(__name__)
+        self._config = Config(config_filename)
+        self._instances: T.List[T.Dict] = []
 
     def _set_instance_list_from_remote(self) -> None:
         conf_general = self._config['general']
+        key_file = os.path.join(self._config.get_conig_dir(), conf_general['key_file'])
 
-        with open(conf_general['key_file'], 'r') as file:
+        with open(key_file, 'r') as file:
             key = json.loads(file.read())
 
         sdk = yandexcloud.SDK(service_account_key=key)
@@ -82,7 +103,7 @@ class ListComposer():
             ListInstancesRequest(folder_id=conf_general['folder_id']))
         self._instances = list(filter(
             lambda i: i.get('status') == 'RUNNING',
-            MessageToDict(resp)['instances']))
+            MessageToDict(resp).get('instances', [])))
 
     @staticmethod
     def _get_ipv4(instance: dict, is_internal: bool) -> str:
@@ -150,14 +171,15 @@ if __name__ == '__main__':
     logging.basicConfig()
     logging.getLogger().setLevel(LOGGING_LEVEL)
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--list', action='store_true')
-    parser.add_argument('--host')
+    parser = argparse.ArgumentParser(description='Provides Ansible dynamic inventory for Yandex Cloud hosts')
+    parser.add_argument('--list', action='store_true', help='Get JSON with hosts')
+    parser.add_argument('--host', help='Get JSON with variables for host (not implemented)')
+    parser.add_argument('--config', help='Pass alternative config file')
 
     args = parser.parse_args()
 
     if args.list:
-        composer = ListComposer()
+        composer = ListComposer(config_filename=args.config)
         print(json.dumps(composer.get_list(), indent=INDENT_SIZE))
     elif args.host:
         print(json.dumps({}, indent=INDENT_SIZE))

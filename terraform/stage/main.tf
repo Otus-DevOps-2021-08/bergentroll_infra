@@ -53,5 +53,5 @@ module "inventory" {
   source     = "../modules/inventory/"
   db_hosts   = { "${module.db.instance_name}" = module.db.internal_ip_address }
   app_hosts  = module.app.external_ip_address
-  output_dir = "../../ansible/"
+  output_dir = var.inventory_output_dir
 }

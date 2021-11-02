@@ -1,1 +1,0 @@
-{"app":{"hosts":{"stage-reddit-app-tf-0":{"ansible_host":"62.84.114.118"},"stage-reddit-app-tf-1":{"ansible_host":"62.84.117.79"}}},"db":{"hosts":{"stage-reddit-db-tf":{"ansible_host":"192.168.11.6"}}}}

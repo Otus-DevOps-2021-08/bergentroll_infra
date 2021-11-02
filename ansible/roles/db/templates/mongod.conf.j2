@@ -12,5 +12,5 @@ systemLog:
 
 # Sockets to listen
 net:
-  port: {{ mongo_port | default('27017') }}
-  bindIp: {{ mongo_bind_ip | default('127.0.0.1') }}
+  port: {{ mongo_port }}
+  bindIp: {{ mongo_bind_ip }}
