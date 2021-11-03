@@ -136,3 +136,8 @@ I did this task so long so I forgot what I actually did.
 cashback!
 
 ![bage](https://github.com/Otus-DevOps-2021-08/bergentroll_infra/actions/workflows/validate.yml/badge.svg)
+
+## Ansible 4
+
+I forgot to copy `vault.key` to my laptop, so `credentials.yml` files are
+renewed. New key is a symlink to synced file.
