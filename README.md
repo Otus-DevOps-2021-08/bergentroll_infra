@@ -141,3 +141,6 @@ cashback!
 
 I forgot to copy `vault.key` to my laptop, so `credentials.yml` files are
 renewed. New key is a symlink to synced file.
+
+FIXME:
+- `playbooks/users.yml` is broken for Vagrant hosts
