@@ -3,30 +3,6 @@
 - name: Print info
   debug:
     msg: "The host is in {{ env }} environment"
-- name: Add unit file for Puma
-  copy:
-    src: puma.service
-    dest: /etc/systemd/system/puma.service
-    mode: '0644'
-  notify: restart puma
-- name: Create a system user
-  user:
-    name: appuser
-    system: true
-    home: '{{ app_path }}/'
-    create_home: false
-- name: Create conf.d
-  file:
-    path: /etc/conf.d/
-    state: directory
-    mode: '0755'
-- name: Add config for DB connection
-  template:
-    src: db_config.j2
-    dest: /etc/conf.d/puma.conf
-    mode: '0644'
-  notify: restart puma
-- name: enable puma
-  systemd:
-    name: puma
-    enabled: true
+
+- include: ruby.yml
+- include: puma.yml

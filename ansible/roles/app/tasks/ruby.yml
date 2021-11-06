@@ -1,0 +1,12 @@
+---
+
+- name: Install Ruby
+  tags: ruby
+  package:
+    name:
+      - ruby-full
+      - ruby-bundler
+      - build-essential
+      - git
+    state: latest
+    update_cache: true
