@@ -141,3 +141,7 @@ cashback!
 
 I forgot to copy `vault.key` to my laptop, so `credentials.yml` files are
 renewed. New key is a symlink to synced file.
+
+Nota bene:
+- libvirt provider is used for Vagrant by default
+- `generic/ubuntu1604` box is used for Vagrant
