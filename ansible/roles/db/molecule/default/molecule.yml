@@ -1,0 +1,14 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+platforms:
+  - name: instance
+    box: generic/ubuntu1604
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
