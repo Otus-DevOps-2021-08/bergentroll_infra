@@ -1,14 +1,14 @@
 ---
 
 - name: Add unit file for Puma
-  copy:
-    src: puma.service
+  template:
+    src: puma.service.j2
     dest: /etc/systemd/system/puma.service
     mode: '0644'
   notify: restart puma
 - name: Create a system user
   user:
-    name: appuser
+    name: '{{ deploy_user }}'
     system: true
     home: '{{ app_path }}/'
     create_home: false

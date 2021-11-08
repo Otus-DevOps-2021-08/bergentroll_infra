@@ -5,10 +5,12 @@ After=network-online.target
 [Service]
 Type=simple
 EnvironmentFile=/etc/conf.d/puma.conf
-User=appuser
+User={{ deploy_user }}
 WorkingDirectory=/srv/reddit/
 ExecStart=/usr/local/bin/puma
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
+
+# vi: syn=systemd
