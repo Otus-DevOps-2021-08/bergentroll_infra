@@ -30,3 +30,9 @@
     src: templates/mongod.conf.j2
     dest: /etc/mongod.conf
     mode: 0644
+
+- name: Enable service
+  tags: install
+  service:
+    name: mongod
+    enabled: yes
