@@ -9,31 +9,6 @@
   become: true
   vars:
     mongo_bind_ip: '0.0.0.0'
-  tasks:
-    - name: Add MongoDB GPG key
-      apt_key:
-        id: E162F504A20CDF15827F718D4B7C549A058F8B6B
-        keyserver: keyserver.ubuntu.com
-    - name: Add MongoDB repo
-      apt_repository:
-        repo: 'deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse'
-        state: present
-    - name: Install MongoDB
-      notify: mongod service
-      package:
-        name:
-          - mongodb-org
-        state: latest
-        update_cache: true
-    - name: Change mongo config file
-      notify: mongod service
-      template:
-        src: templates/mongod.conf.j2
-        dest: /etc/mongod.conf
-        mode: 0644
-  handlers:
-    - name: mongod service
-      service:
-        name: mongod
-        enabled: true
-        state: restarted
+  roles:
+    - role: db
+      tags: install

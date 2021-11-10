@@ -137,6 +137,9 @@ cashback!
 
 ![bage](https://github.com/Otus-DevOps-2021-08/bergentroll_infra/actions/workflows/validate.yml/badge.svg)
 
+FIXME:
+- Packer requires `use_proxy: false` for Ansible
+
 ## Ansible 4
 
 I forgot to copy `vault.key` to my laptop, so `credentials.yml` files are
@@ -145,3 +148,7 @@ renewed. New key is a symlink to synced file.
 Nota bene:
 - libvirt provider is used for Vagrant by default
 - `generic/ubuntu1604` box is used for Vagrant
+
+FIXME:
+- Creation of users is still broken due to envs
+- Packer provisioning ingores Ansible tags

@@ -1,6 +1,7 @@
 ---
 
 - name: Change mongo config file
+  tags: config
   template:
     src: mongod.conf.j2
     dest: /etc/mongod.conf
