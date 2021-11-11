@@ -18,6 +18,7 @@ variables.json
 # Ansible
 *retry
 ansible/roles/jdauphant.nginx
+ansible/roles/db
 ansible/vault.key
 
 # Vagrant

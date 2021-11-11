@@ -2,3 +2,6 @@
 
 - src: jdauphant.nginx
   version: 'v2.21.1'
+
+- src: https://github.com/Otus-DevOps-2021-08/bergentroll_role_db
+  name: db
