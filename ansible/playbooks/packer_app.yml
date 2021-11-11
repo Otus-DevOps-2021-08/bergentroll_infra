@@ -9,4 +9,3 @@
   become: true
   roles:
     - role: app
-      tags: ruby
