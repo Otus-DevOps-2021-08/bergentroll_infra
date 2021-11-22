@@ -1,0 +1,6 @@
+skip_list:
+  - package-latest
+  - ANSIBLE0010  # package-latest for older ansible-lint
+  - meta-no-info
+
+# vi: syn=yml

@@ -1,0 +1,12 @@
+---
+- name: Install obsolete python
+  hosts: all
+  become: true
+  gather_facts: False
+
+  tasks:
+    - name: Install CPython 2 for old Ansible
+      raw: >-
+        test -e /usr/bin/python ||
+        (apt-get -y update && apt-get install -y python-minimal)
+      changed_when: False

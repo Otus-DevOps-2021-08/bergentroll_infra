@@ -1,5 +1,6 @@
 ---
 
+deploy_user: appuser
 app_path: '/srv/reddit/'
 db_host: '127.0.0.1'
 env: local

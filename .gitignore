@@ -1,3 +1,7 @@
+# Generic
+*.log
+.cache
+
 # Yandex
 /key.json
 
@@ -14,7 +18,18 @@ variables.json
 # Ansible
 *retry
 ansible/roles/jdauphant.nginx
+ansible/roles/db
 ansible/vault.key
+
+# Vagrant
+.vagrant/
+
+# Molecule
+.molecule
+
+# Python
+*.pyc
+.pytest_cache
 
 # Custom
 yac_inventory_*.yml
